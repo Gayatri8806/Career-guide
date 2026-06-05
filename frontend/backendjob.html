@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Backend Jobs</title>
+
+<style>
+/* SAME CSS — NO CHANGE */
+body { font-family: Arial; margin:0; background:#f4f7fb; }
+.header { background:linear-gradient(to right,#ff7e5f,#feb47b); color:white; padding:25px; text-align:center; position: relative; }
+.back-btn { position:absolute; left:20px; top:20px; padding:8px 12px; border:none; border-radius:6px; cursor:pointer; }
+.search-box { text-align:center; margin:20px; }
+.search-box input { width:50%; padding:12px; border-radius:25px; border:1px solid #ccc; font-size:16px; }
+.filters { text-align:center; margin-bottom:20px; }
+.filters button { margin:5px; padding:8px 15px; border:none; border-radius:20px; cursor:pointer; background:#ddd; }
+.jobs { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:20px; padding:20px; }
+.card { background:white; padding:20px; border-radius:12px; box-shadow:0 5px 12px rgba(0,0,0,0.1); transition:0.3s; }
+.card:hover { transform: translateY(-5px); }
+.tag { display:inline-block; background:#e3f2fd; padding:5px 10px; border-radius:6px; margin:3px; font-size:12px; }
+.actions { display:flex; justify-content:space-between; margin-top:15px; }
+.apply-btn { background:#4CAF50; color:white; padding:8px 14px; border:none; border-radius:6px; cursor:pointer; }
+.save-btn { background:#ff4081; color:white; border:none; border-radius:50%; padding:10px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<button class="back-btn" onclick="goBack()">⬅ Back</button>
+<h2>Backend Jobs ⚙</h2>
+</div>
+
+<div class="search-box">
+<input type="text" id="search" placeholder="Search jobs..." onkeyup="searchJobs()">
+</div>
+
+<div class="filters">
+<button onclick="filterJobs('all')">All</button>
+<button onclick="filterJobs('remote')">Remote</button>
+<button onclick="filterJobs('fulltime')">Full Time</button>
+<button onclick="filterJobs('intern')">Internship</button>
+</div>
+
+<div class="jobs">
+
+<div class="card" data-type="fulltime">
+<h3>Java Developer - Wipro</h3>
+<p>Bangalore | ₹4-7 LPA | 1-2 yrs</p>
+<span class="tag">Java</span>
+<span class="tag">Spring</span>
+<div class="actions">
+<button class="apply-btn" onclick="applyJob('https://careers.wipro.com')">Apply</button>
+<button class="save-btn" onclick="saveJob(this)">❤</button>
+</div>
+</div>
+
+<div class="card" data-type="remote">
+<h3>Node.js Developer - Accenture</h3>
+<p>Hyderabad | ₹5-9 LPA | 2 yrs</p>
+<span class="tag">Node.js</span>
+<span class="tag">MongoDB</span>
+<div class="actions">
+<button class="apply-btn" onclick="applyJob('https://www.accenture.com/in-en/careers')">Apply</button>
+<button class="save-btn" onclick="saveJob(this)">❤</button>
+</div>
+</div>
+
+<div class="card" data-type="fulltime">
+<h3>Python Developer - Infosys</h3>
+<p>Pune | ₹4-6 LPA | 1 yr</p>
+<span class="tag">Python</span>
+<span class="tag">Django</span>
+<div class="actions">
+<button class="apply-btn" onclick="applyJob('https://www.infosys.com/careers')">Apply</button>
+<button class="save-btn" onclick="saveJob(this)">❤</button>
+</div>
+</div>
+
+</div>
+
+<script>
+function goBack(){ window.location.href="jobs.html"; }
+function searchJobs(){ let i=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll(".card").forEach(c=>c.style.display=c.innerText.toLowerCase().includes(i)?"block":"none"); }
+function filterJobs(t){ document.querySelectorAll(".card").forEach(c=>c.style.display=(t=="all"||c.dataset.type==t)?"block":"none"); }
+function applyJob(l){ window.open(l,"_blank"); }
+function saveJob(b){ b.innerHTML="💖"; alert("Saved!"); }
+</script>
+
+</body>
+</html>

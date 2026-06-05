@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activities | LMS</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Container */
+        .container {
+            padding: 30px;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 20px;
+        }
+
+        /* Progress Card */
+        .progress-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 15px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            transition: width 0.5s;
+        }
+
+        /* Task Card */
+        .task {
+            background: white;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .task-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-title {
+            font-weight: bold;
+        }
+
+        .task-status {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .completed {
+            color: green;
+        }
+
+        .pending {
+            color: orange;
+        }
+
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #3498db;
+            color: white;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .done-btn {
+            background: #27ae60;
+        }
+
+        .done-btn:hover {
+            background: #219150;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h2>CareerGuide LMS</h2>
+    <div>Activities</div>
+</div>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <h2>📋 Learning Activities</h2>
+        <p>Complete tasks to improve your skills 🚀</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-card">
+        <h3>📊 Your Progress</h3>
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+        <p id="progressText"></p>
+    </div>
+
+    <!-- Task List -->
+    <div id="taskList"></div>
+
+</div>
+
+<script>
+
+// 🔥 TASKS (REAL LMS STYLE)
+let tasks = [
+    { title: "Build Login Page", desc: "Create HTML + CSS login UI" },
+    { title: "Create Dashboard UI", desc: "Design student dashboard" },
+    { title: "JavaScript Basics", desc: "Learn variables, functions" },
+    { title: "Quiz System", desc: "Implement quiz logic" },
+    { title: "Profile System", desc: "Add profile & image upload" },
+    { title: "Activities Module", desc: "Track learning progress" }
+];
+
+// 🔥 LOAD DATA
+let completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
+
+// LOAD TASKS
+function loadTasks() {
+    let container = document.getElementById("taskList");
+    container.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+
+        let div = document.createElement("div");
+        div.className = "task";
+
+        let left = document.createElement("div");
+        left.className = "task-left";
+
+        let title = document.createElement("div");
+        title.className = "task-title";
+        title.innerText = task.title;
+
+        let desc = document.createElement("div");
+        desc.innerText = task.desc;
+
+        let status = document.createElement("div");
+        status.className = "task-status";
+
+        if (completedTasks.includes(index)) {
+            status.innerText = "Completed";
+            status.classList.add("completed");
+        } else {
+            status.innerText = "Pending";
+            status.classList.add("pending");
+        }
+
+        left.appendChild(title);
+        left.appendChild(desc);
+        left.appendChild(status);
+
+        let btn = document.createElement("button");
+
+        if (completedTasks.includes(index)) {
+            btn.innerText = "Done";
+            btn.classList.add("done-btn");
+        } else {
+            btn.innerText = "Mark Complete";
+            btn.onclick = () => completeTask(index);
+        }
+
+        div.appendChild(left);
+        div.appendChild(btn);
+
+        container.appendChild(div);
+    });
+
+    updateProgress();
+}
+
+// COMPLETE TASK
+function completeTask(index) {
+    if (!completedTasks.includes(index)) {
+        completedTasks.push(index);
+        localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+    }
+
+    loadTasks();
+}
+
+// UPDATE PROGRESS
+function updateProgress() {
+    let percent = Math.round((completedTasks.length / tasks.length) * 100);
+
+    document.getElementById("progressBar").style.width = percent + "%";
+    document.getElementById("progressText").innerText =
+        percent + "% completed";
+}
+
+// INIT
+loadTasks();
+
+</script>
+
+</body>
+</html>

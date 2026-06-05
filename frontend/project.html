@@ -1,0 +1,75 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects | Career Guidance</title>
+    <link rel="stylesheet" href="project.css">
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <h2>CareerGuide</h2>
+    <ul>
+        <li onclick="goToHome()">Home</li>
+        <li onclick="goToQuiz()">Quiz</li>
+        <li onclick="goToCourses()">Courses</li>
+        <li onclick="goToJobs()">Jobs</li>
+        <li onclick="goToProjects()">Projects</li>
+        <li><button onclick="logout()">Logout</button></li>
+    </ul>
+</nav>
+
+<!-- Header -->
+<div class="header">
+    <h1>Project Ideas 💻</h1>
+    <p>Build these projects to improve your skills</p>
+</div>
+
+<!-- Projects -->
+<div class="container">
+
+    <div class="card">
+        <h3>Portfolio Website</h3>
+        <p>Create your personal portfolio.</p>
+        <button onclick="openProjectPage('portfolio.html')">View Idea</button>
+    </div>
+
+    <div class="card">
+        <h3>To-Do App</h3>
+        <p>Manage daily tasks using JS.</p>
+        <button onclick="openProjectPage('todo.html')">View Idea</button>
+    </div>
+
+    <div class="card">
+        <h3>Weather App</h3>
+        <p>Fetch live weather data using API.</p>
+        <button onclick="openProjectPage('weather.html')">View Idea</button>
+    </div>
+
+    <div class="card">
+        <h3>Login System</h3>
+        <p>Build authentication using Node.js.</p>
+        <button onclick="openProjectPage('login-system.html')">View Idea</button>
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="script.js"></script>
+
+<script>
+function openProjectPage(page) {
+    window.location.href = page;
+}
+
+function logout() {
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
+```

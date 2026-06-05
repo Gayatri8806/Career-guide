@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f4f4;
+}
+
+/* Navbar */
+.navbar {
+    background: #333;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar li {
+    cursor: pointer;
+}
+
+/* Header */
+.course-header {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Content */
+.course-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    width: 300px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+iframe {
+    border-radius: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 20px;
+}

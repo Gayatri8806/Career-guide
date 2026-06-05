@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            margin: 0;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            width: 70%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .question {
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>📝 Quiz System</h2>
+</div>
+
+<div class="container">
+
+    <!-- SUBJECT SELECT -->
+    <h3>Select Subject</h3>
+    <select id="subjectSelect" onchange="loadQuiz()">
+        <option value="">--Select--</option>
+        <option value="Java">Java</option>
+        <option value="React">React</option>
+        <option value="DBMS">DBMS</option>
+        <option value="Python">Python</option>
+        <option value="AI">AI</option>
+        <option value="OS">OS</option>
+        <option value="CN">Computer Networks</option>
+        <option value="DSA">DSA</option>
+        <option value="Web">Web Dev</option>
+        <option value="Cloud">Cloud</option>
+    </select>
+
+    <div id="quizContainer"></div>
+
+    <div style="text-align:center;">
+        <button onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+
+    <h3 id="result"></h3>
+
+</div>
+
+<script>
+
+
+// 🔥 KEEP YOUR SAME quizData (NO CHANGE)
+const quizData = {
+
+    Java: [
+        { q: "Java is?", options: ["Language", "OS", "DB"], answer: "Language" },
+        { q: "JVM stands for?", options: ["Java VM", "Virtual Machine", "Java Virtual Machine"], answer: "Java Virtual Machine" },
+        { q: "Java is ___ typed?", options: ["Weak", "Strong", "Dynamic"], answer: "Strong" },
+        { q: "OOP stands for?", options: ["Object Oriented Programming", "Only One Program", "Open Object Program"], answer: "Object Oriented Programming" },
+        { q: "Java file extension?", options: [".java", ".js", ".py"], answer: ".java" },
+        { q: "Which keyword creates object?", options: ["new", "create", "make"], answer: "new" },
+        { q: "Java supports?", options: ["OOP", "Procedural", "None"], answer: "OOP" },
+        { q: "Which is not datatype?", options: ["int", "float", "real"], answer: "real" },
+        { q: "Main method return type?", options: ["int", "void", "string"], answer: "void" },
+        { q: "Java runs on?", options: ["JVM", "CPU", "RAM"], answer: "JVM" }
+    ],
+
+    DBMS: [
+        { q: "DBMS stands for?", options: ["Data Base Management System", "Data Backup System", "Data Basic Model System"], answer: "Data Base Management System" },
+        { q: "Primary key is?", options: ["Unique", "Duplicate", "Optional"], answer: "Unique" },
+        { q: "SQL stands for?", options: ["Structured Query Language", "Simple Query Language", "Standard Question Language"], answer: "Structured Query Language" },
+        { q: "Which is DB?", options: ["MySQL", "HTML", "CSS"], answer: "MySQL" },
+        { q: "Foreign key is?", options: ["Reference", "Primary", "Unique"], answer: "Reference" },
+        { q: "Table is?", options: ["Rows & Columns", "Only rows", "Only columns"], answer: "Rows & Columns" },
+        { q: "Which command retrieves data?", options: ["SELECT", "INSERT", "DELETE"], answer: "SELECT" },
+        { q: "Which normal form removes redundancy?", options: ["1NF", "2NF", "3NF"], answer: "3NF" },
+        { q: "Tuple means?", options: ["Row", "Column", "Table"], answer: "Row" },
+        { q: "Attribute means?", options: ["Column", "Row", "Key"], answer: "Column" }
+    ],
+
+    React: [
+        { q: "React is?", options: ["Library", "Language", "DB"], answer: "Library" },
+        { q: "useState is?", options: ["Hook", "API", "Class"], answer: "Hook" },
+        { q: "JSX stands for?", options: ["JavaScript XML", "Java Syntax", "JSON XML"], answer: "JavaScript XML" },
+        { q: "React created by?", options: ["Facebook", "Google", "Microsoft"], answer: "Facebook" },
+        { q: "Component is?", options: ["Reusable UI", "Function", "Variable"], answer: "Reusable UI" },
+        { q: "Props are?", options: ["Inputs", "Outputs", "Loops"], answer: "Inputs" },
+        { q: "State is?", options: ["Data", "Loop", "Condition"], answer: "Data" },
+        { q: "React uses?", options: ["Virtual DOM", "Real DOM", "No DOM"], answer: "Virtual DOM" },
+        { q: "Event handling?", options: ["JS", "CSS", "HTML"], answer: "JS" },
+        { q: "Hook starts with?", options: ["use", "get", "set"], answer: "use" }
+    ],
+
+    Python: [
+        { q: "Python is?", options: ["Language", "OS", "DB"], answer: "Language" },
+        { q: "File extension?", options: [".py", ".java", ".js"], answer: ".py" },
+        { q: "Python is ___ typed?", options: ["Dynamic", "Static", "Strong"], answer: "Dynamic" },
+        { q: "Which keyword defines function?", options: ["def", "fun", "function"], answer: "def" },
+        { q: "List is?", options: ["Mutable", "Immutable", "Static"], answer: "Mutable" },
+        { q: "Tuple is?", options: ["Immutable", "Mutable", "Dynamic"], answer: "Immutable" },
+        { q: "Which loop exists?", options: ["for", "repeat", "loop"], answer: "for" },
+        { q: "Indentation is?", options: ["Important", "Optional", "Ignored"], answer: "Important" },
+        { q: "Python supports?", options: ["OOP", "Procedural", "Both"], answer: "Both" },
+        { q: "Print function?", options: ["print()", "echo()", "log()"], answer: "print()" }
+    ],
+
+    AI: [
+        { q: "AI stands for?", options: ["Artificial Intelligence", "Auto Input", "Advanced Info"], answer: "Artificial Intelligence" },
+        { q: "AI used in?", options: ["Robots", "Cooking", "Drawing"], answer: "Robots" },
+        { q: "ML is subset of?", options: ["AI", "DBMS", "OS"], answer: "AI" },
+        { q: "Chatbot uses?", options: ["AI", "HTML", "CSS"], answer: "AI" },
+        { q: "AI goal?", options: ["Smart machines", "Fast typing", "Design"], answer: "Smart machines" },
+        { q: "Data needed?", options: ["Yes", "No", "Optional"], answer: "Yes" },
+        { q: "AI field?", options: ["CS", "Math", "Both"], answer: "Both" },
+        { q: "Vision AI?", options: ["Image", "Text", "Sound"], answer: "Image" },
+        { q: "Speech AI?", options: ["Voice", "Text", "Code"], answer: "Voice" },
+        { q: "AI example?", options: ["Alexa", "Chair", "Table"], answer: "Alexa" }
+    ],
+
+    OS: [
+        { q: "OS stands for?", options: ["Operating System", "Open System", "Order System"], answer: "Operating System" },
+        { q: "Example OS?", options: ["Windows", "HTML", "SQL"], answer: "Windows" },
+        { q: "OS manages?", options: ["Hardware", "Only files", "Nothing"], answer: "Hardware" },
+        { q: "Process is?", options: ["Program in execution", "File", "Folder"], answer: "Program in execution" },
+        { q: "CPU scheduling?", options: ["Yes", "No", "Maybe"], answer: "Yes" },
+        { q: "Memory management?", options: ["Yes", "No", "Optional"], answer: "Yes" },
+        { q: "Kernel is?", options: ["Core", "UI", "App"], answer: "Core" },
+        { q: "Multitasking?", options: ["Yes", "No", "Never"], answer: "Yes" },
+        { q: "File system?", options: ["Organizes data", "Deletes data", "Ignores data"], answer: "Organizes data" },
+        { q: "Device driver?", options: ["Controls device", "Deletes device", "Stops device"], answer: "Controls device" }
+    ],
+
+    CN: [
+        { q: "CN stands for?", options: ["Computer Network", "Control Node", "Central Network"], answer: "Computer Network" },
+        { q: "Internet is?", options: ["Network", "Device", "App"], answer: "Network" },
+        { q: "IP address?", options: ["Unique ID", "Password", "Code"], answer: "Unique ID" },
+        { q: "Protocol?", options: ["Rules", "Devices", "Apps"], answer: "Rules" },
+        { q: "HTTP?", options: ["Web protocol", "OS", "Language"], answer: "Web protocol" },
+        { q: "Router?", options: ["Network device", "Software", "App"], answer: "Network device" },
+        { q: "LAN?", options: ["Local network", "Large network", "Long network"], answer: "Local network" },
+        { q: "WAN?", options: ["Wide network", "Wireless network", "Web network"], answer: "Wide network" },
+        { q: "Switch?", options: ["Connect devices", "Delete data", "Stop network"], answer: "Connect devices" },
+        { q: "DNS?", options: ["Name system", "Number system", "Node system"], answer: "Name system" }
+    ],
+
+    DSA: [
+        { q: "DSA stands for?", options: ["Data Structures & Algorithms", "Data System App", "Dynamic System Algo"], answer: "Data Structures & Algorithms" },
+        { q: "Array is?", options: ["Collection", "Single", "Loop"], answer: "Collection" },
+        { q: "Stack is?", options: ["LIFO", "FIFO", "Random"], answer: "LIFO" },
+        { q: "Queue is?", options: ["FIFO", "LIFO", "Stack"], answer: "FIFO" },
+        { q: "Tree is?", options: ["Hierarchical", "Linear", "Random"], answer: "Hierarchical" },
+        { q: "Graph?", options: ["Nodes & edges", "Lines", "Tables"], answer: "Nodes & edges" },
+        { q: "Search?", options: ["Find data", "Delete data", "Insert data"], answer: "Find data" },
+        { q: "Sort?", options: ["Arrange data", "Delete data", "Copy data"], answer: "Arrange data" },
+        { q: "Binary search?", options: ["Fast search", "Slow", "No search"], answer: "Fast search" },
+        { q: "Linked list?", options: ["Nodes", "Array", "Stack"], answer: "Nodes" }
+    ],
+
+    Web: [
+        { q: "HTML?", options: ["Markup", "Language", "DB"], answer: "Markup" },
+        { q: "CSS?", options: ["Style", "Logic", "DB"], answer: "Style" },
+        { q: "JS?", options: ["Logic", "Style", "Markup"], answer: "Logic" },
+        { q: "Frontend?", options: ["UI", "Server", "DB"], answer: "UI" },
+        { q: "Backend?", options: ["Server", "UI", "CSS"], answer: "Server" },
+        { q: "API?", options: ["Interface", "App", "Data"], answer: "Interface" },
+        { q: "Browser?", options: ["Chrome", "MySQL", "Linux"], answer: "Chrome" },
+        { q: "Responsive?", options: ["Flexible UI", "Fixed UI", "No UI"], answer: "Flexible UI" },
+        { q: "DOM?", options: ["Document Model", "Data Model", "Design Model"], answer: "Document Model" },
+        { q: "Hosting?", options: ["Deploy site", "Delete site", "Design site"], answer: "Deploy site" }
+    ],
+
+    Cloud: [
+        { q: "Cloud is?", options: ["Internet service", "Device", "OS"], answer: "Internet service" },
+        { q: "AWS?", options: ["Cloud platform", "OS", "DB"], answer: "Cloud platform" },
+        { q: "Storage?", options: ["Save data", "Delete data", "Process data"], answer: "Save data" },
+        { q: "Server?", options: ["Provides service", "User", "App"], answer: "Provides service" },
+        { q: "IaaS?", options: ["Infrastructure", "Software", "Platform"], answer: "Infrastructure" },
+        { q: "PaaS?", options: ["Platform", "Infra", "Software"], answer: "Platform" },
+        { q: "SaaS?", options: ["Software", "Infra", "Platform"], answer: "Software" },
+        { q: "Cloud type?", options: ["Public", "Private", "Both"], answer: "Both" },
+        { q: "Virtualization?", options: ["Yes", "No", "Optional"], answer: "Yes" },
+        { q: "Cloud benefit?", options: ["Scalable", "Slow", "Limited"], answer: "Scalable" }
+    ]
+
+};
+
+
+
+// 🔥 LOAD QUIZ (NO CHANGE)
+function loadQuiz() {
+
+    const subject = document.getElementById("subjectSelect").value;
+    const container = document.getElementById("quizContainer");
+
+    container.innerHTML = "";
+
+    if (!quizData[subject]) return;
+
+    quizData[subject].forEach((item, index) => {
+
+        let html = `<div class="question">
+            <p>${index + 1}. ${item.q}</p>`;
+
+        item.options.forEach(opt => {
+            html += `
+                <input type="radio" name="q${index}" value="${opt}"> ${opt}<br>
+            `;
+        });
+
+
+        html += `</div>`;
+
+        container.innerHTML += html;
+    });
+}
+
+// 🔥 SUBMIT QUIZ (UPDATED LOGIC)
+function submitQuiz() {
+
+    const subject = document.getElementById("subjectSelect").value;
+
+    if (!subject) {
+        alert("Select subject first!");
+        return;
+    }
+
+    let questions = quizData[subject];
+    let score = 0;
+
+    // ✅ CHECK ANSWERS
+    questions.forEach((q, index) => {
+        let selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && selected.value === q.answer) {
+            score++;
+        }
+    });
+
+    let percent = Math.round((score / questions.length) * 100);
+
+    // ✅ NEW CLEAN DATA STRUCTURE
+    let courses = JSON.parse(localStorage.getItem("courses")) || [];
+
+    let found = false;
+
+    courses = courses.map(c => {
+        if (c.name === subject) {
+            found = true;
+            return {
+                ...c,
+                courseStatus: "completed",
+                quizStatus: "completed",
+                score: percent,
+                certificate: percent >= 40
+            };
+        }
+        return c;
+    });
+
+    if (!found) {
+        courses.push({
+            name: subject,
+            courseStatus: "completed",
+            quizStatus: "completed",
+            score: percent,
+            certificate: percent >= 40
+        });
+    }
+
+    localStorage.setItem("courses", JSON.stringify(courses));
+
+    // 🎯 RESULT
+    let msg = percent >= 40 ? "Passed ✅" : "Failed ❌";
+
+    document.getElementById("result").innerText = `Score: ${percent}% (${msg})`;
+
+    // 🚀 REDIRECT
+    setTimeout(() => {
+        if (percent >= 40) {
+            window.location.href = "certificate.html";
+        } else {
+            window.location.href = "progress.html";
+        }
+    }, 2000);
+}
+
+</script>
+
+</body>
+</html>  

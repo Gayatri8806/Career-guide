@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses | Career Guidance</title>
+    <link rel="stylesheet" href="course.css">
+</head>
+<script src="script.js"></script>
+
+
+<body>
+
+    
+<!-- Navbar -->
+<nav class="navbar">
+    <h2>CareerGuide</h2>
+    <ul>
+        <li onclick="goToHome()">Home</li>
+        <li onclick="goToQuiz()">Quiz</li>
+        <li onclick="goToCourses()">Courses</li>
+        <li onclick="goToJobs()">Jobs</li>
+        <li onclick="goToProjects()">Projects</li>
+        <li><button onclick="logout()">Logout</button></li>
+    </ul>
+</nav>
+<!-- Header -->
+<div class="course-header">
+    <h1>Web Development Roadmap 📚</h1>
+    <p>Learn step by step and become a professional developer</p>
+</div>
+
+<!-- Courses Section -->
+<div class="course-container">
+
+    <!-- Course 1 -->
+    <div class="card">
+        <h3>HTML</h3>
+        <p>Learn structure of web pages using HTML.</p>
+        <button onclick="openCourse('htmllearn.html')">Start Learning</button>
+      </div>
+
+    <!-- Course 2 -->
+    <div class="card">
+        <h3>CSS</h3>
+        <p>Design beautiful and responsive websites.</p>
+        <button onclick="openCourse('csslearn.html')">Start Learning</button>
+    </div>
+
+    <!-- Course 3 -->
+    <div class="card">
+        <h3>JavaScript</h3>
+        <p>Add interactivity and logic to websites.</p>
+        <button onclick="openCourse('jslearn.html')">Start Learning</button>
+    </div>
+
+    <!-- Course 4 -->
+    <div class="card">
+        <h3>React</h3>
+        <p>Build modern frontend applications.</p>
+       <button onclick="openCourse('reactlearn.html')">Start Learning</button>
+    </div>
+
+    <!-- Course 5 -->
+    <div class="card">
+        <h3>Node.js</h3>
+        <p>Learn backend development and APIs.</p>
+        <button onclick="openCourse('nodelearn.html')">Start Learning</button>
+    </div>
+
+</div>
+
+<script>
+function logout() {
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f4f4f4;
+        }
+        .box {
+            margin: 100px auto;
+            padding: 30px;
+            width: 400px;
+            background: white;
+            border-radius: 10px;
+        }
+        .career {
+            margin: 10px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 5px;
+        }
+        .progress-container {
+            background: #ddd;
+            height: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: green;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>🎯 Your Result</h2>
+
+    <p id="score"></p>
+
+    <!-- 🔥 Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <h3>🏆 Recommended Careers</h3>
+    <div id="careers"></div>
+
+    <br>
+    <button onclick="goHome()">Go Home</button>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("quizResult"));
+
+// Show score
+document.getElementById("score").innerText =
+    `Score: ${data.score}/${data.total} (${data.percentage}%)`;
+
+// 🔥 Set progress bar dynamically
+let bar = document.getElementById("progressBar");
+bar.style.width = data.percentage + "%";
+bar.innerText = data.percentage + "%";
+
+// Show careers
+let container = document.getElementById("careers");
+
+data.careers.forEach((c, i) => {
+    let div = document.createElement("div");
+    div.className = "career";
+    div.innerText = `${i+1}. ${c.name} – ${c.percent}% match`;
+    container.appendChild(div);
+});
+
+function goHome() {
+    window.location.href = "Home.html";
+}
+</script>
+
+</body>
+</html>

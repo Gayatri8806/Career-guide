@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weather App</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#f4f7fb; }
+.header { background:linear-gradient(to right,#11998e,#38ef7d); color:white; padding:25px; text-align:center; position:relative; }
+.back-btn { position:absolute; left:20px; top:20px; padding:8px; border:none; }
+.container { padding:30px; }
+.card { background:white; padding:20px; border-radius:12px; }
+.btn { background:#4CAF50; color:white; padding:10px; border:none; border-radius:6px; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<button class="back-btn" onclick="goBack()">⬅</button>
+<h2>Weather App 🌦</h2>
+</div>
+
+<div class="container">
+<div class="card">
+
+<h3>Project Idea</h3>
+<p>Create a weather app that fetches real-time data using APIs.</p>
+
+<h3>Features</h3>
+<ul>
+<li>Search City</li>
+<li>Live Weather Data</li>
+<li>Temperature & Humidity</li>
+</ul>
+
+<h3>Technologies</h3>
+<p>JavaScript, API, HTML, CSS</p>
+
+<button class="btn" onclick="openLink('https://openweathermap.org/api')">
+Start Learning
+</button>
+
+</div>
+</div>
+
+<script>
+function goBack(){ window.location.href="project.html"; }
+function openLink(link){ window.open(link,"_blank"); }
+</script>
+
+</body>
+</html>

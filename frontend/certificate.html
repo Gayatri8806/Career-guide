@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificates</title>
+
+    <!-- PDF LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            text-align: center;
+            margin: 0;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar button {
+            background: #e74c3c;
+            border: none;
+            padding: 8px 15px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .certificate {
+            background: white;
+            width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            border: 8px solid gold;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        h1 { color: #2c3e50; }
+
+        .name {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #27ae60;
+        }
+
+        .course {
+            font-size: 22px;
+            color: #2980b9;
+            margin: 10px 0;
+        }
+
+        .date {
+            margin-top: 20px;
+            font-size: 14px;
+            color: gray;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #27ae60;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .course-list {
+            margin-top: 30px;
+        }
+
+        .course-btn {
+            background: #3498db;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>🏆 Certificates</h2>
+    <button onclick="goBack()">⬅ Dashboard</button>
+</div>
+
+<!-- COURSE LIST -->
+<div class="course-list" id="courseList"></div>
+
+<!-- CERTIFICATE -->
+<div id="certificateSection" class="hidden">
+
+    <div class="certificate" id="certificateBox">
+        <h1>🏆 Certificate of Completion</h1>
+
+        <p>This is to certify that</p>
+
+        <div class="name" id="studentName">Student Name</div>
+
+        <p>has successfully completed</p>
+
+        <div class="course" id="courseName">Course Name</div>
+
+        <p class="date" id="dateText"></p>
+
+        <p><b>Congratulations! 🎉</b></p>
+    </div>
+
+    <button onclick="downloadPDF()">Download Certificate</button>
+</div>
+
+<script>
+
+// ✅ GET USER NAME (FIXED)
+let profile = JSON.parse(localStorage.getItem("studentProfile")) || {};
+let loggedUser = localStorage.getItem("loggedInUser") || "";
+
+// 🔥 PRIORITY: profile.name → fallback: logged user → default
+let studentName = "Student";
+
+if (profile.name && profile.name.trim() !== "") {
+    studentName = profile.name;
+} else if (loggedUser && !loggedUser.includes("@")) {
+    studentName = loggedUser;
+}
+
+// ✅ LOAD COURSES
+let courses = JSON.parse(localStorage.getItem("courses")) || [];
+
+// 🔥 NORMALIZE DATA
+courses = courses.map(c => {
+    if (typeof c === "string") {
+        return {
+            name: c,
+            courseStatus: "not started",
+            quizStatus: "not attempted",
+            score: 0,
+            certificate: false
+        };
+    }
+    return {
+        name: c.name || "Unknown",
+        courseStatus: c.courseStatus || c.status || "not started",
+        quizStatus: c.quizStatus || "not attempted",
+        score: c.score || 0,
+        certificate: c.certificate || false
+    };
+});
+
+// 🔥 SHOW ONLY CERTIFICATE ELIGIBLE
+let completedCourses = courses.filter(c => c.certificate === true);
+
+let courseList = document.getElementById("courseList");
+
+if (completedCourses.length === 0) {
+    courseList.innerHTML = "<h3>No eligible certificates yet ❌</h3>";
+} else {
+    courseList.innerHTML = "<h3>Select Course Certificate 🎓</h3>";
+
+    completedCourses.forEach(course => {
+        let btn = document.createElement("button");
+        btn.className = "course-btn";
+        btn.innerText = course.name + " Certificate";
+
+        btn.onclick = () => generateCertificate(course.name);
+
+        courseList.appendChild(btn);
+    });
+}
+
+// 🔥 GENERATE CERTIFICATE
+function generateCertificate(courseName) {
+
+    document.getElementById("certificateSection").classList.remove("hidden");
+
+    document.getElementById("studentName").innerText = studentName;
+    document.getElementById("courseName").innerText = courseName;
+
+    let today = new Date().toLocaleDateString();
+    document.getElementById("dateText").innerText = "Date: " + today;
+
+    let certs = JSON.parse(localStorage.getItem("certificates")) || [];
+
+    if (!certs.some(c => c.name === courseName)) {
+        certs.push({ name: courseName, date: today });
+        localStorage.setItem("certificates", JSON.stringify(certs));
+    }
+}
+
+// 🔥 DOWNLOAD PDF
+function downloadPDF() {
+
+    const element = document.getElementById("certificateBox");
+    const course = document.getElementById("courseName").innerText;
+
+    const opt = {
+        margin: 0.5,
+        filename: studentName + "_" + course + "_Certificate.pdf",
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+}
+
+// 🔙 BACK
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

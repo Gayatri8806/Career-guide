@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jobs | Career Guidance</title>
+    <link rel="stylesheet" href="jobs.css">
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <h2>CareerGuide</h2>
+    <ul>
+        <li onclick="goToHome()">Home</li>
+        <li onclick="goToQuiz()">Quiz</li>
+        <li onclick="goToCourses()">Courses</li>
+        <li onclick="goToJobs()">Jobs</li>
+        <li onclick="goToProjects()">Projects</li>
+        <li><button onclick="logout()">Logout</button></li>
+    </ul>
+</nav>
+
+<!-- Header -->
+<div class="header">
+    <h1>Latest Job Opportunities 💼</h1>
+    <p>Find your dream job in Web Development</p>
+</div>
+
+<!-- Jobs Section -->
+<div class="container">
+
+    <!-- FRONTEND -->
+    <div class="card">
+        <h3>Frontend Developer</h3>
+        <p>Company: TCS</p>
+        <p>Salary: ₹4 - ₹6 LPA</p>
+        <button onclick="openJobPage('frontendjob.html')">Apply Now</button>
+    </div>
+
+    <!-- BACKEND -->
+    <div class="card">
+        <h3>Backend Developer</h3>
+        <p>Company: Infosys</p>
+        <p>Salary: ₹5 - ₹8 LPA</p>
+        <button onclick="openJobPage('backendjob.html')">Apply Now</button>
+    </div>
+
+    <!-- FULL STACK -->
+    <div class="card">
+        <h3>Full Stack Developer</h3>
+        <p>Company: Wipro</p>
+        <p>Salary: ₹6 - ₹10 LPA</p>
+        <button onclick="openJobPage('fullstackjob.html')">Apply Now</button>
+    </div>
+
+    <!-- REACT -->
+    <div class="card">
+        <h3>React Developer</h3>
+        <p>Company: Accenture</p>
+        <p>Salary: ₹5 - ₹9 LPA</p>
+        <button onclick="openJobPage('reactjob.html')">Apply Now</button>
+    </div>
+
+</div>
+
+<!-- JS FILE -->
+<script src="script.js"></script>
+
+</body>
+</html>

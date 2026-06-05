@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home | Career Guidance</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<script src="script.js"></script>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <h2>CareerGuide</h2>
+
+    <ul>
+        <li onclick="goToHome()">Home</li>
+        <li onclick="goToDashboard()">Dashboard</li> <!-- ✅ ADDED -->
+        <li onclick="goToQuiz()">Quiz</li>
+        <li onclick="goToCourses()">Courses</li>
+        <li onclick="goToJobs()">Jobs</li>
+        <li onclick="goToProjects()">Projects</li>
+        <li><button onclick="logout()">Logout</button></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Welcome to Career Guidance System 🎯</h1>
+    <p>Explore your future in Web Development</p>
+</section>
+
+<!-- Features Section -->
+<div class="container">
+
+    <div class="card">
+        <h3>🧠 Quiz</h3>
+        <p>Test your skills and find your best career path.</p>
+        <button onclick="goToQuiz()">Start Quiz</button>
+    </div>
+
+    <div class="card">
+        <h3>📚 Courses</h3>
+        <p>Learn Web Development step by step.</p>
+        <button onclick="goToCourses()">View Courses</button>
+    </div>
+
+    <div class="card">
+        <h3>💼 Jobs</h3>
+        <p>Find latest job opportunities in IT field.</p>
+        <button onclick="goToJobs()">Explore Jobs</button>
+    </div>
+
+    <div class="card">
+        <h3>💻 Projects</h3>
+        <p>Build real-world projects to improve skills.</p>
+        <button onclick="goToProjects()">View Projects</button>
+    </div>
+
+</div>
+
+<!-- JS File -->
+<script src="script.js"></script>
+
+<script>
+function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+
+/* ================= ADDED DASHBOARD NAVIGATION ================= */
+function goToDashboard() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

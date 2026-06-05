@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f6f9;
+}
+
+/* Layout */
+.layout {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+}
+
+.sidebar img {
+    width: 80px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+}
+
+.sidebar button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    background: #6cc000;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.sidebar a {
+    display: block;
+    margin: 15px 0;
+    color: #dfe4ea;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    color: white;
+}
+
+.logout {
+    background: red;
+}
+
+/* Content */
+.content {
+    flex: 1;
+}
+
+/* Header */
+.header {
+    background: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile img {
+    width: 40px;
+    border-radius: 50%;
+}
+
+/* Main */
+.main {
+    padding: 30px;
+}
+
+/* Cards */
+.cards {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.blue { background: #0984e3; }
+.red { background: #d63031; }
+.green { background: #00b894; }
+
+.card h3 {
+    margin: 0;
+}
+
+.card p {
+    font-size: 28px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <img id="sidebarPic" src="https://via.placeholder.com/80">
+
+    <input type="file" id="uploadPic" hidden>
+    <button onclick="uploadPic.click()">Upload</button>
+    <button onclick="editProfile()">Edit</button>
+
+    <h2 style="text-align:center;">CareerGuide</h2>
+
+    <a href="#">Dashboard</a>
+    <a onclick="goQuiz()">Quiz</a>
+    <a onclick="goProgress()">Progress</a>
+    <a onclick="goCertificates()">Certificates</a>
+
+    <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h3>Dashboard</h3>
+
+        <div class="profile">
+            <img id="profilePic" src="https://via.placeholder.com/40">
+            <span id="username"></span>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h2>Student Dashboard</h2>
+
+        <div class="cards">
+            <div class="card blue">
+                <h3>Total Courses</h3>
+                <p id="totalCourses">0</p>
+            </div>
+
+            <div class="card red">
+                <h3>In Progress</h3>
+                <p id="progressCourses">0</p>
+            </div>
+
+            <div class="card green">
+                <h3>Completed</h3>
+                <p id="completedCourses">0</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+/* USER */
+let user = localStorage.getItem("loggedInUser");
+if (!user) window.location.href = "login.html";
+
+document.getElementById("username").innerText = user;
+
+/* NAV */
+function goQuiz(){ window.location.href="quize.html"; }
+function goProgress(){ window.location.href="progress.html"; }
+function goCertificates(){ window.location.href="certificate.html"; }
+
+/* LOGOUT */
+function logout(){
+    localStorage.clear();
+    window.location.href="login.html";
+}
+
+/* PROFILE */
+let profile = JSON.parse(localStorage.getItem("studentProfile")) || {};
+
+if(profile.image){
+    document.getElementById("sidebarPic").src = profile.image;
+    document.getElementById("profilePic").src = profile.image;
+}
+
+/* IMAGE UPLOAD */
+uploadPic.addEventListener("change", function(){
+    let file = this.files[0];
+    let reader = new FileReader();
+
+    reader.onload = function(e){
+        profile.image = e.target.result;
+        localStorage.setItem("studentProfile", JSON.stringify(profile));
+        location.reload();
+    };
+
+    reader.readAsDataURL(file);
+});
+
+/* EDIT NAME */
+function editProfile(){
+    let name = prompt("Enter name:");
+    if(name){
+        localStorage.setItem("loggedInUser", name);
+        location.reload();
+    }
+}
+
+/* LOAD DATA */
+let courses = JSON.parse(localStorage.getItem("courses")) || [];
+
+let total = courses.length;
+let completed = courses.filter(c => c.status === "completed").length;
+let progress = total - completed;
+
+document.getElementById("totalCourses").innerText = total;
+document.getElementById("completedCourses").innerText = completed;
+document.getElementById("progressCourses").innerText = progress;
+
+</script>
+
+</body>
+</html>

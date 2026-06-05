@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Progress</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            margin: 0;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar button {
+            background: #e74c3c;
+            border: none;
+            padding: 8px 15px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 25%;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+
+        .completed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .progress {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #27ae60;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>📊 Student Progress Card</h2>
+    <button onclick="goBack()">⬅ Dashboard</button>
+</div>
+
+<div class="container">
+
+    <!-- SUMMARY -->
+    <div class="summary">
+        <div class="card">
+            <h3>Total Courses</h3>
+            <p id="totalCourses">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Completed</h3>
+            <p id="completedCourses">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Average Score</h3>
+            <p id="avgScore">0%</p>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody id="progressTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+
+
+// ✅ LOAD DATA
+let courses = JSON.parse(localStorage.getItem("courses")) || [];
+
+// 🚨 FIX OLD / BROKEN DATA (prevents undefined)
+courses = courses.map(c => {
+    if (typeof c === "string") {
+        return {
+            name: c,
+            courseStatus: "not started",
+            quizStatus: "not attempted",
+            score: 0,
+            certificate: false
+        };
+    }
+    return {
+        name: c.name || "Unknown",
+        courseStatus: c.courseStatus || c.status || "not started",
+        quizStatus: c.quizStatus || "not attempted",
+        score: c.score || 0,
+        certificate: c.certificate || false
+    };
+});
+
+// 🔥 SUMMARY
+let total = courses.length;
+
+let completed = courses.filter(c => c.courseStatus === "completed").length;
+
+let totalScore = 0;
+courses.forEach(c => totalScore += c.score);
+let avg = total > 0 ? Math.round(totalScore / total) : 0;
+
+// ✅ UPDATE SUMMARY
+document.getElementById("totalCourses").innerText = total;
+document.getElementById("completedCourses").innerText = completed;
+document.getElementById("avgScore").innerText = avg + "%";
+
+// 🔥 TABLE
+let table = document.getElementById("progressTable");
+table.innerHTML = "";
+
+// ✅ LOOP DATA
+courses.forEach(course => {
+
+    let progressPercent = course.score;
+
+    let row = `
+        <tr>
+            <td>${course.name}</td>
+
+            <!-- COURSE STATUS -->
+            <td class="${course.courseStatus === 'completed' ? 'completed' : 'progress'}">
+                ${course.courseStatus}
+                <br>
+                <small>Quiz: ${course.quizStatus}</small>
+            </td>
+
+            <!-- SCORE -->
+            <td>${course.score}%</td>
+
+            <!-- PROGRESS BAR -->
+            <td>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width:${progressPercent}%"></div>
+                </div>
+            </td>
+        </tr>
+    `;
+
+    table.innerHTML += row;
+});
+
+// 🔙 BACK
+function goBack() {
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>

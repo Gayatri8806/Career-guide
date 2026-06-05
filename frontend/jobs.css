@@ -1,0 +1,70 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f7f6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 50px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    align-items: center;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar button {
+    background: #6cc000;
+    border: none;
+    padding: 8px 15px;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: white;
+}
+
+/* Cards */
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    padding: 40px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    width: 230px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    background: #6cc000;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}

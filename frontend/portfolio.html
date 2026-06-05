@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Portfolio Project</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#f4f7fb; }
+.header { background:linear-gradient(to right,#36d1dc,#5b86e5); color:white; padding:25px; text-align:center; position:relative; }
+.back-btn { position:absolute; left:20px; top:20px; padding:8px; border:none; border-radius:6px; cursor:pointer; }
+.container { padding:30px; }
+.card { background:white; padding:20px; border-radius:12px; box-shadow:0 5px 10px rgba(0,0,0,0.1); }
+.btn { background:#4CAF50; color:white; padding:10px; border:none; border-radius:6px; cursor:pointer; margin-top:15px; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<button class="back-btn" onclick="goBack()">⬅</button>
+<h2>Portfolio Website 🎨</h2>
+</div>
+
+<div class="container">
+<div class="card">
+
+<h3>Project Idea</h3>
+<p>Create a personal portfolio website to showcase your skills, projects, resume, and contact details.</p>
+
+<h3>Features</h3>
+<ul>
+<li>Home Section</li>
+<li>About Me</li>
+<li>Projects Showcase</li>
+<li>Contact Form</li>
+</ul>
+
+<h3>Technologies</h3>
+<p>HTML, CSS, JavaScript</p>
+
+<button class="btn" onclick="openLink('https://www.w3schools.com/howto/howto_website_create_portfolio.asp')">
+Start Learning
+</button>
+
+</div>
+</div>
+
+<script>
+function goBack(){ window.location.href="project.html"; }
+function openLink(link){ window.open(link,"_blank"); }
+</script>
+
+</body>
+</html>

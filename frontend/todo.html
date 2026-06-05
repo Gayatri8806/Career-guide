@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Todo App</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#f4f7fb; }
+.header { background:linear-gradient(to right,#00c6ff,#0072ff); color:white; padding:25px; text-align:center; position:relative; }
+.back-btn { position:absolute; left:20px; top:20px; padding:8px; border:none; border-radius:6px; }
+.container { padding:30px; }
+.card { background:white; padding:20px; border-radius:12px; }
+.btn { background:#4CAF50; color:white; padding:10px; border:none; border-radius:6px; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<button class="back-btn" onclick="goBack()">⬅</button>
+<h2>Todo App 📝</h2>
+</div>
+
+<div class="container">
+<div class="card">
+
+<h3>Project Idea</h3>
+<p>Build a task management app where users can add, delete, and mark tasks as completed.</p>
+
+<h3>Features</h3>
+<ul>
+<li>Add Tasks</li>
+<li>Delete Tasks</li>
+<li>Mark Complete</li>
+<li>Local Storage</li>
+</ul>
+
+<h3>Technologies</h3>
+<p>HTML, CSS, JavaScript</p>
+
+<button class="btn" onclick="openLink('https://react.dev/learn')">
+Start Learning
+</button>
+
+</div>
+</div>
+
+<script>
+function goBack(){ window.location.href="project.html"; }
+function openLink(link){ window.open(link,"_blank"); }
+</script>
+
+</body>
+</html>
